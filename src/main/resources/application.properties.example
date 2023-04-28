@@ -1,0 +1,27 @@
+# Datasource configuration
+spring.datasource.username=
+spring.datasource.password=
+# You can change value below or keep it
+spring.datasource.driverClassName=org.postgresql.Driver
+spring.datasource.url=
+
+# JPA x Hibernate Configuration
+
+# This is an anti-pattern, YOU SHOULD SET THE VALUE TO FALSE!
+# It is not recommended to use spring.jpa.openInView=true in production due anti-pattern
+spring.jpa.openInView=false
+spring.jpa.hibernate.ddlAuto=
+# You can change value below or keep it
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+spring.jpa.showSql=
+
+# Mail configuration
+spring.mail.port=
+spring.mail.host=
+spring.mail.username=
+spring.mail.password=
+spring.mail.properties.mail.smtp.auth=
+spring.mail.properties.mail.smtp.starttls.enable=
+
+# Application configuration
+application.domain=
