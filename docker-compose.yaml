@@ -1,0 +1,27 @@
+version: '3.7'
+services:
+  pgdb:
+    container_name: "pgdb"
+    ports:
+      - "5432:5432"
+    restart: on-failure
+    image: "postgres:latest"
+    environment:
+      - "POSTGRES_PASSWORD=sintabe"
+    networks:
+      - "sinta_network"
+    volumes:
+      - "sinta_volume:/var/lib/postgresql/data"
+  sinta_app:
+    container_name: "sinta_app"
+    ports:
+      - "8080:8080"
+    networks:
+      - "sinta_network"
+    restart: on-failure
+    build: .
+volumes:
+  sinta_volume:
+networks:
+  sinta_network:
+    driver: bridge
