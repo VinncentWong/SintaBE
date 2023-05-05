@@ -18,25 +18,25 @@ public class UserDto {
 
     private UserDto(){}
     public record Create(
-            @NotNull(message = "Email harus ada")
-            @NotBlank(message = "Email tidak boleh kosong")
-            @Email(message = "Email anda tidak valid")
-            String email,
+        @NotNull(message = "Email harus ada")
+        @NotBlank(message = "Email tidak boleh kosong")
+        @Email(message = "Email anda tidak valid")
+        String email,
 
-            @NotNull(message = "Nomor telepon anda harus ada")
-            @NotBlank(message = "Nomor telepon anda tidak boleh kosong")
-            @Length(min = 10, max = 16, message = "Jumlah digit nomor telepon harus diantara 10 <= noTelp <= 16")
-            String noTelepon,
+        @NotNull(message = "Nomor telepon anda harus ada")
+        @NotBlank(message = "Nomor telepon anda tidak boleh kosong")
+        @Length(min = 10, max = 16, message = "Jumlah digit nomor telepon harus diantara 10 <= noTelp <= 16")
+        String noTelepon,
 
-            @NotNull(message = "Nama anda harus ada")
-            @NotBlank(message = "Nama anda tidak boleh kosong")
-            @Length(min = 4, message = "Panjang nama anda minimal 4")
-            String nama,
+        @NotNull(message = "Nama anda harus ada")
+        @NotBlank(message = "Nama anda tidak boleh kosong")
+        @Length(min = 4, message = "Panjang nama anda minimal 4")
+        String nama,
 
-            @NotNull(message = "Password harus ada")
-            @NotBlank(message = "Password tidak boleh kosong")
-            @Length(min = 4, message = "Panjang password minimal 4")
-            String password
+        @NotNull(message = "Password harus ada")
+        @NotBlank(message = "Password tidak boleh kosong")
+        @Length(min = 4, message = "Panjang password minimal 4")
+        String password
     ){
         public User toUser(){
             User user = new User();
@@ -50,12 +50,19 @@ public class UserDto {
     }
 
     public record Login(
-            @NotNull(message = "Email anda harus ada")
-            @NotBlank(message = "Email anda tidak boleh kosong")
-            String email,
+        @NotNull(message = "Email anda harus ada")
+        @NotBlank(message = "Email anda tidak boleh kosong")
+        String email,
 
-            @NotNull(message = "Password harus ada")
-            @NotBlank(message = "Password tidak boleh kosong")
-            String password
+        @NotNull(message = "Password harus ada")
+        @NotBlank(message = "Password tidak boleh kosong")
+        String password
+    ){}
+
+    public record Update(
+        String email,
+        String nomorKtp,
+        String nama,
+        String noTelp
     ){}
 }
