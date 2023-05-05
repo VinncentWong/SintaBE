@@ -1,6 +1,7 @@
 package com.example.sinta.interceptor;
 
 import com.example.sinta.exception.UserAlreadyExistException;
+import com.example.sinta.exception.UserNotFoundException;
 import com.example.sinta.exception.WrongCredentialException;
 import com.example.sinta.util.ResponseUtil;
 import org.springframework.http.HttpStatus;
@@ -23,5 +24,10 @@ public class Interceptor {
     @ExceptionHandler(WrongCredentialException.class)
     public ResponseEntity<Map<String, Object>> handleException(WrongCredentialException ex){
         return this.responseUtil.sendResponse(ex.getMessage(), HttpStatus.UNAUTHORIZED, false, null);
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<Map<String, Object>> handleException(UserNotFoundException ex){
+        return this.responseUtil.sendResponse(ex.getMessage(), HttpStatus.NOT_FOUND, false, null);
     }
 }
