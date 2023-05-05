@@ -6,7 +6,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.UpdateTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.Date;
 
@@ -20,6 +24,8 @@ Instead, use annotations provided below
 @ToString
 @Setter
 @Getter
+@DynamicInsert
+@DynamicUpdate
 public class User implements Extractable{
 
     @Id
@@ -34,6 +40,7 @@ public class User implements Extractable{
 
     private String noTelp;
 
+    @JsonIgnore
     private String password;
 
     private Verifikasi verified;
