@@ -4,7 +4,9 @@ import com.example.sinta.app.user.controller.IUserController;
 import com.example.sinta.app.user.service.IUserService;
 import com.example.sinta.app.user.service.impl.UserService;
 import com.example.sinta.dto.UserDto;
+import com.example.sinta.dto.UserDto.Update;
 import com.example.sinta.exception.UserAlreadyExistException;
+import com.example.sinta.exception.UserNotFoundException;
 import com.example.sinta.exception.WrongCredentialException;
 import jakarta.validation.Valid;
 import org.springframework.http.MediaType;
@@ -50,5 +52,24 @@ public class UserController implements IUserController {
     @Override
     public ResponseEntity<Map<String, Object>> updateVerifikasiUser(@PathVariable("id") Long id) {
         return this.service.updateVerifikasiUser(id);
+    }
+
+    @GetMapping(
+        value = "/get/{id}",
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    @Override
+    public ResponseEntity<Map<String, Object>> getUser(@PathVariable("id") Long id) throws UserNotFoundException {
+        return this.service.getUser(id);
+    }
+
+    @PatchMapping(
+        value = "/update/{id}",
+        produces = MediaType.APPLICATION_JSON_VALUE,
+        consumes = MediaType.APPLICATION_JSON_VALUE
+    )
+    @Override
+    public ResponseEntity<Map<String, Object>> updateUser(@PathVariable("id") Long id, @RequestBody Update dto) throws UserNotFoundException, UserAlreadyExistException {
+        return this.service.updateUser(id, dto);
     }
 }
