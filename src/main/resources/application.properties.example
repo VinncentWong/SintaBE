@@ -23,5 +23,10 @@ spring.mail.password=
 spring.mail.properties.mail.smtp.auth=
 spring.mail.properties.mail.smtp.starttls.enable=
 
+# Cloudinary Configuration
+cloudinary.cloudname=
+cloudinary.apiKey=
+cloudinary.apiSecret=
+
 # Application configuration
 application.domain=
