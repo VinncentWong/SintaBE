@@ -23,7 +23,7 @@ public final class JwtUtil {
                 .signWith(key)
                 .claim("id", extractable.getId())
                 .claim("nama", extractable.getNama())
-                .claim("createdAt", extractable.getCreatedAt())
+                .claim("createdAt", extractable.getCreatedAt().getTime())
                 .claim("role", extractable.getRole())
                 .compact();
     }
