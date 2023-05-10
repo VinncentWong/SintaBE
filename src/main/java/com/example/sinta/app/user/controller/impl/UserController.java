@@ -8,7 +8,11 @@ import com.example.sinta.dto.UserDto.Update;
 import com.example.sinta.exception.UserAlreadyExistException;
 import com.example.sinta.exception.UserNotFoundException;
 import com.example.sinta.exception.WrongCredentialException;
+import com.example.sinta.security.authentication.JwtAuthentication;
+
 import jakarta.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -69,7 +73,7 @@ public class UserController implements IUserController {
         consumes = MediaType.APPLICATION_JSON_VALUE
     )
     @Override
-    public ResponseEntity<Map<String, Object>> updateUser(@PathVariable("id") Long id, @RequestBody Update dto) throws UserNotFoundException, UserAlreadyExistException {
-        return this.service.updateUser(id, dto);
+    public ResponseEntity<Map<String, Object>> updateUser(@Autowired JwtAuthentication auth, @RequestBody Update dto) throws UserNotFoundException, UserAlreadyExistException {
+        return this.service.updateUser(auth.getData().getId(), dto);
     }
 }
