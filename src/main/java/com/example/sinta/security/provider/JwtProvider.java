@@ -24,7 +24,7 @@ public class JwtProvider implements AuthenticationProvider{
                     .parserBuilder()
                     .setSigningKey(JwtUtil.INSTANCE.getKey())
                     .build();
-            var jws = parser.parseClaimsJws(jwtToken.toString());
+            var jws = parser.parseClaimsJws((String)jwtToken);
             List<GrantedAuthority> auth = new ArrayList<>();
             auth.add(new SimpleGrantedAuthority("ROLE_" + (String)jws.getBody().get("role")));
             var jwtAuth = new JwtAuthentication(jwtToken, null, auth);
@@ -37,7 +37,7 @@ public class JwtProvider implements AuthenticationProvider{
 
     @Override
     public boolean supports(Class<?> authentication) {
-        if(authentication.getClass().equals(this.getClass())){
+        if(authentication.equals(JwtAuthentication.class)){
             return true;
         } else {
             return false;
