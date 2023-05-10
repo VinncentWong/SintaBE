@@ -24,6 +24,11 @@ public final class JwtUtil {
                 .claim("id", extractable.getId())
                 .claim("nama", extractable.getNama())
                 .claim("createdAt", extractable.getCreatedAt())
+                .claim("role", extractable.getRole())
                 .compact();
+    }
+
+    public Key getKey() {
+        return key;
     }
 }
