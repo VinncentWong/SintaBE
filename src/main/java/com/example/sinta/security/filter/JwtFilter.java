@@ -2,6 +2,7 @@ package com.example.sinta.security.filter;
 
 import java.io.IOException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,16 +17,19 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 
 public class JwtFilter extends OncePerRequestFilter{
 
+    @Autowired
+    @Qualifier("handlerExceptionResolver")
+    private HandlerExceptionResolver exceptionResolver;
+
     private final JwtManager manager;
 
-    private final HandlerExceptionResolver exceptionResolver;
 
-    public JwtFilter(JwtManager manager, HandlerExceptionResolver resolver) {
+    public JwtFilter(JwtManager manager) {
         this.manager = manager;
-        this.exceptionResolver = resolver;
     }
 
     @Override
@@ -45,7 +49,7 @@ public class JwtFilter extends OncePerRequestFilter{
                 SecurityContextHolder.getContext().setAuthentication(auth);
                 filterChain.doFilter(request, response);
             } else {
-                this.exceptionResolver.resolveException(request, response, null, new JwtTokenInvalidException("token jwt invalid"));            }
+                this.exceptionResolver.resolveException(request, response, null, new JwtTokenInvalidException("token jwt invalid, pesan: " + auth.getPrincipal().toString()));            }
         }
     }
     
