@@ -1,6 +1,5 @@
 package com.example.sinta.configuration;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -9,7 +8,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import com.example.sinta.security.filter.JwtFilter;
 import com.example.sinta.security.manager.JwtManager;
@@ -18,9 +16,6 @@ import com.example.sinta.security.provider.JwtProvider;
 @EnableWebSecurity
 @Configuration
 public class SecurityConfiguration {
-
-    @Qualifier("handlerExceptionResolver")
-    private HandlerExceptionResolver resolver;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity security) throws Exception {
@@ -61,6 +56,6 @@ public class SecurityConfiguration {
 
     @Bean
     public JwtFilter jwtFilter(){
-        return new JwtFilter(jwtManager(), this.resolver);
+        return new JwtFilter(jwtManager());
     }
 }
