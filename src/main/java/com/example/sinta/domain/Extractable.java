@@ -7,4 +7,5 @@ public interface Extractable {
     Long getId();
     String getNama();
     Date getCreatedAt();
+    Role getRole();
 }
