@@ -27,11 +27,9 @@ import com.example.sinta.exception.WrongCredentialException;
 import com.example.sinta.security.authentication.JwtAuthentication;
 
 import jakarta.validation.Valid;
-import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/agentravel")
-@Slf4j
 public class AgenTravelController implements IAgenTravelController{
     
     private final IAgenTravelService service;
@@ -46,7 +44,7 @@ public class AgenTravelController implements IAgenTravelController{
         produces = MediaType.APPLICATION_JSON_VALUE
     )
     @Override
-    public ResponseEntity<Map<String, Object>> createAgenTravel(@Valid @RequestBody Register dto) throws AgenTravelAlreadyExistException {
+    public ResponseEntity<Map<String, Object>> createAgenTravel(@RequestBody @Valid Register dto) throws AgenTravelAlreadyExistException {
         return this.service.createAgenTravel(dto);
     }
 
@@ -56,7 +54,7 @@ public class AgenTravelController implements IAgenTravelController{
         produces = MediaType.APPLICATION_JSON_VALUE
     )
     @Override
-    public ResponseEntity<Map<String, Object>> loginAgenTravel(@Valid @RequestBody Login dto)
+    public ResponseEntity<Map<String, Object>> loginAgenTravel(@RequestBody @Valid Login dto)
             throws AgenTravelNotExistException, WrongCredentialException {
         return this.service.loginAgenTravel(dto);
     }
@@ -83,6 +81,15 @@ public class AgenTravelController implements IAgenTravelController{
     ) throws AgenTravelNotExistException, IOException {
         Long id = jwtAuth.getData().getId();
         return this.service.lengkapiProfilAgenTravel(id, dto, file);
+    }
+
+    @GetMapping(
+        value = "/get/{id}",
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    @Override
+    public ResponseEntity<Map<String, Object>> getAgenTravel(@PathVariable("id") Long id) throws AgenTravelNotExistException {
+        return this.service.getAgenTravel(id);
     }
 
     

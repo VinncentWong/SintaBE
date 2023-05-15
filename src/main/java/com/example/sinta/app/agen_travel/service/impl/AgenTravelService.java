@@ -34,11 +34,9 @@ import com.example.sinta.util.JwtUtil;
 import com.example.sinta.util.ResponseUtil;
 
 import jakarta.transaction.Transactional;
-import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Transactional
-@Slf4j
 public class AgenTravelService implements IAgenTravelService{
 
     private final JavaMailSender mailSender;
@@ -107,7 +105,6 @@ public class AgenTravelService implements IAgenTravelService{
 
     @Override
     public ResponseEntity<Map<String, Object>> loginAgenTravel(Login dto) throws AgenTravelNotExistException, WrongCredentialException {
-        log.info("email perusahaan = " + dto.emailPerusahaan());
         Optional<AgenTravel> opt = this.repository.getAgenTravelByEmailPerusahaan(dto.emailPerusahaan());
         if(opt.isEmpty()){
             throw new AgenTravelNotExistException("Data agen travel tidak ditemukan");
@@ -126,7 +123,10 @@ public class AgenTravelService implements IAgenTravelService{
 
     @Override
     public ResponseEntity<Map<String, Object>> updateVerifikasiAgenTravel(Long id) {
-        this.repository.updateStatusVerifikasiAgenTravel(id, Verifikasi.TERVERIFIKASI.ordinal());
+        AgenTravel agenTravel = this.repository.findById(id).get();
+        agenTravel.setIsVerified(true);
+        agenTravel.setStatusVerifikasi(Verifikasi.TERVERIFIKASI);
+        this.repository.save(agenTravel);
         return this.responseUtil.sendResponse("Sukses mengupdate status verifikasi agen travel", HttpStatus.OK, true, null);
     }
 
@@ -143,6 +143,14 @@ public class AgenTravelService implements IAgenTravelService{
        this.repository.save(agenTravel);
        outputStream.close();
        return this.responseUtil.sendResponse("Sukses melengkapi profil agen travel", HttpStatus.OK, true, null);
+    }
+
+    @Override
+    public ResponseEntity<Map<String, Object>> getAgenTravel(Long id) throws AgenTravelNotExistException {
+        AgenTravel agenTravel = this.repository.findById(id).orElseThrow(() -> new AgenTravelNotExistException("Data agen travel tidak ditemukan"));
+        Map<String, Object> map = new LinkedHashMap<>();
+        map.put("agentravel", agenTravel);
+        return this.responseUtil.sendResponse("Sukses mendapatkan data agen travel", HttpStatus.OK, true, map);
     }
     
 }

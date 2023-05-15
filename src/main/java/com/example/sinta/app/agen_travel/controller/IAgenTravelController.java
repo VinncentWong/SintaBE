@@ -17,4 +17,5 @@ public interface IAgenTravelController {
     ResponseEntity<Map<String, Object>> loginAgenTravel(AgenTravelDto.Login dto) throws AgenTravelNotExistException, WrongCredentialException;
     ResponseEntity<Map<String, Object>> updateVerifikasiAgenTravel(Long id);
     ResponseEntity<Map<String, Object>> lengkapiProfilAgenTravel(JwtAuthentication jwtAuth, AgenTravelDto.LengkapiProfil dto, MultipartFile file) throws AgenTravelNotExistException, IOException;
+    ResponseEntity<Map<String, Object>> getAgenTravel(Long id) throws AgenTravelNotExistException;
 }
