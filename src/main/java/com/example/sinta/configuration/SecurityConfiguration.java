@@ -37,8 +37,12 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests()
                 .requestMatchers("/user/create", "/user/login", "/user/update/verifikasi/**", "/user/get/**")
                 .permitAll()
-                .requestMatchers("/agentravel/create", "/agentravel/login", "/agentravel/update/verifikasi/**")
+                .requestMatchers("/agentravel/create", "/agentravel/login", "/agentravel/update/verifikasi/**", "/agentravel/get/**")
                 .permitAll()
+                .requestMatchers("/premium/get/**").permitAll()
+                .requestMatchers("/bank/get/**").permitAll()
+                .requestMatchers("/paketwisata/get/**").permitAll()
+                .requestMatchers("/portofolio/get/*").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .build();
