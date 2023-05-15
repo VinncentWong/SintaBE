@@ -15,6 +15,7 @@ import com.example.sinta.util.JwtUtil;
 import com.example.sinta.util.ResponseUtil;
 import jakarta.transaction.Transactional;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -108,6 +109,8 @@ public class UserService implements IUserService {
             throw new WrongCredentialException("Kredensial tidak valid");
         }
         var user = optUser.get();
+        Hibernate.initialize(user.getPemesananDalamNegeri());
+        Hibernate.initialize(user.getPemesananLuarNegeri());
         if(user.getVerified().name().equals("MENUNGGU") || user.getVerified().name().equals("TIDAK_TERVERIFIKASI")){
             throw new WrongCredentialException("Pastikan Anda sudah melakukan verifikasi Email");
         }
@@ -134,6 +137,8 @@ public class UserService implements IUserService {
         if(opt.isEmpty()){
             throw new UserNotFoundException("Data user tidak ditemukan");
         }
+        Hibernate.initialize(opt.get().getPemesananDalamNegeri());
+        Hibernate.initialize(opt.get().getPemesananLuarNegeri());
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("user", opt.get());
         return this.responseUtil.sendResponse("Sukses mendapatkan data user", HttpStatus.OK, true, map);
@@ -154,6 +159,8 @@ public class UserService implements IUserService {
                 throw new UserNotFoundException("Data user tidak ditemukan");
             }
         }
+        Hibernate.initialize(opt.get().getPemesananDalamNegeri());
+        Hibernate.initialize(opt.get().getPemesananLuarNegeri());
         User user = opt.get();
         if(!user.getEmail().equals(dto.email())){
             user.setVerified(Verifikasi.MENUNGGU);

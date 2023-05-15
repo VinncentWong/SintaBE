@@ -25,10 +25,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
     void updateVerifikasiUser(@Param("id") Long id, @Param("verifikasi") int verifikasi);
 
     @Query(
-            nativeQuery = true,
-            value = """
-                    SELECT * FROM users WHERE email=:email LIMIT 1
-                    """
+                value = """
+                SELECT * FROM users WHERE email=:email LIMIT 1
+                """,
+                nativeQuery = true
     )
     Optional<User> findUserByEmail(@Param("email") String email);
 
