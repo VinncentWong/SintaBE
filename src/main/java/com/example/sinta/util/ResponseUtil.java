@@ -5,7 +5,6 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.HashMap;
 
 public final class ResponseUtil {
 
@@ -14,7 +13,7 @@ public final class ResponseUtil {
 
     public ResponseEntity<Map<String, Object>> sendResponse(String message, HttpStatus status, Boolean success, Map<String, Object> data){
         Map<String, Object> res = new LinkedHashMap<>();
-        Map<String, Object> innerMap = new HashMap<>();
+        Map<String, Object> innerMap = new LinkedHashMap<>();
         res.put("message", message);
         res.put("success", success);
         if(data != null){
