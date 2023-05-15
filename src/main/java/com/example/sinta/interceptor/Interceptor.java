@@ -2,6 +2,7 @@ package com.example.sinta.interceptor;
 
 import com.example.sinta.exception.AgenTravelAlreadyExistException;
 import com.example.sinta.exception.AgenTravelNotExistException;
+import com.example.sinta.exception.HistoryPembelianPremiumNotFoundException;
 import com.example.sinta.exception.JwtTokenInvalidException;
 import com.example.sinta.exception.UserAlreadyExistException;
 import com.example.sinta.exception.UserNotFoundException;
@@ -64,5 +65,15 @@ public class Interceptor {
     @ExceptionHandler(JwtTokenInvalidException.class)
     public ResponseEntity<Map<String, Object>> handleException(JwtTokenInvalidException ex){
         return this.responseUtil.sendResponse(ex.getMessage(), HttpStatus.FORBIDDEN, false, null);
+    }
+
+    @ExceptionHandler(HistoryPembelianPremiumNotFoundException.class)
+    public ResponseEntity<Map<String, Object>> handleException(HistoryPembelianPremiumNotFoundException ex){
+        return this.responseUtil.sendResponse(ex.getMessage(), HttpStatus.NOT_FOUND, false, null);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Map<String, Object>> handleException(Exception ex){
+        return this.responseUtil.sendResponse(ex.getMessage(), HttpStatus.NOT_FOUND, false, null);
     }
 }
