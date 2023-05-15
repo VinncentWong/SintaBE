@@ -1,10 +1,5 @@
 package com.example.sinta.domain;
 
-import java.util.Date;
-
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -17,25 +12,18 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Setter
 @Getter
-@DynamicInsert
-@DynamicUpdate
-public class DetailTamuBayi {
-
+public class Portofolio {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Titel titel;
-
-    private String nama;
-
-    private Date tanggalLahir;
+    private String text;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private PemesananDalamNegeri pemesananDalamNegeri;
-    
+    private AgenTravel agenTravel;
 }

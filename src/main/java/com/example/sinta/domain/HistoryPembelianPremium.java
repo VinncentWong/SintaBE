@@ -13,6 +13,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,6 +25,7 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class HistoryPembelianPremium {
     
     @Id
@@ -32,7 +34,9 @@ public class HistoryPembelianPremium {
 
     private TipePembayaran tipePembayaran;
 
-    private Integer lamaPremium;
+    private Long lamaPremium;
+
+    private Long totalPembayaran;
 
     @CreationTimestamp
     private Date createdAt;

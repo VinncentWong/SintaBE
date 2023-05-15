@@ -2,9 +2,6 @@ package com.example.sinta.domain;
 
 import java.util.Date;
 
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -12,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,21 +19,27 @@ import lombok.Setter;
 @AllArgsConstructor
 @Setter
 @Getter
-@DynamicInsert
-@DynamicUpdate
-public class DetailTamuBayi {
-
+@Builder
+public class DetailTamuAnakLuarNegeri {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private Titel titel;
 
-    private String nama;
+    private String namaDepanTengah;
+
+    private String namaBelakang;
 
     private Date tanggalLahir;
 
+    private String kewarganegaraan;
+
+    private String nomorPaspor;
+
+    private Date tanggalHabisBerlaku;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    private PemesananDalamNegeri pemesananDalamNegeri;
-    
+    private PemesananLuarNegeri pemesananLuarNegeri;
 }

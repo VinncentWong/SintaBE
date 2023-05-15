@@ -9,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
@@ -25,13 +26,14 @@ You should not use @lombok.Data due performance issue
 Instead, use annotations provided below
  */
 @Entity(name = "users")
+@Table(name = "users")
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Setter
 @Getter
 @DynamicInsert
 @DynamicUpdate
+@ToString(exclude = {"pemesananDalamNegeri", "pemesananLuarNegeri"})
 public class User implements Extractable{
 
     @Id
@@ -61,8 +63,10 @@ public class User implements Extractable{
     private Date updatedAt;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
+    @JsonIgnore
     private List<PemesananDalamNegeri> pemesananDalamNegeri;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
+    @JsonIgnore
     private List<PemesananLuarNegeri> pemesananLuarNegeri;
 }

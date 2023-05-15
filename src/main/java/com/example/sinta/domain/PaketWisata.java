@@ -2,7 +2,6 @@ package com.example.sinta.domain;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
@@ -12,8 +11,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.CollectionTable;
-import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -21,9 +18,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.MapKeyColumn;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -38,7 +33,6 @@ import lombok.ToString;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString(exclude = {"hargaPaketWisata"})
 public class PaketWisata {
     
     @Id
@@ -66,6 +60,8 @@ public class PaketWisata {
 
     private String fasilitas;
 
+    private String infoHarga;
+
     @CreationTimestamp
     private Date createdAt;
 
@@ -74,13 +70,16 @@ public class PaketWisata {
 
     private Date deletedAt;
 
-    @ElementCollection
-    @MapKeyColumn
-    @CollectionTable(name = "detail_tanggal", joinColumns = @JoinColumn(name = "id_paket_wisata"))
-    private Map<Date, Date> detailTanggal;
+    @Enumerated(EnumType.STRING)
+    private TipePaketWisata tipePaketWisata;
+
+    @Enumerated(EnumType.STRING)
+    private DomainPaketWisata domain;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "paketWisata")
-    @JsonIgnore
+    private List<DetailTanggal> detailTanggal;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "paketWisata")
     private List<HargaPaketWisata> hargaPaketWisata;
 
     @ManyToOne(fetch = FetchType.LAZY)

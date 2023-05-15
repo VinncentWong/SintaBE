@@ -3,6 +3,7 @@ package com.example.sinta.domain;
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.Hibernate;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -51,6 +52,12 @@ public class PemesananDalamNegeri {
 
     private String nomorTelepon;
 
+    private Integer banyakDewasa;
+
+    private Integer banyakAnak;
+
+    private Integer banyakBayi;
+
     @Enumerated(EnumType.STRING)
     private TipePembayaran tipePembayaran;
 
@@ -80,4 +87,13 @@ public class PemesananDalamNegeri {
 
     @OneToOne(fetch = FetchType.LAZY)
     private PaketWisata paketWisata;
+
+    private Long agenTravelId;
+
+    public void initialize(){
+        Hibernate.initialize(this.paketWisata.getAgenTravel());
+        Hibernate.initialize(this.paketWisata.getDetailTanggal());
+        Hibernate.initialize(this.paketWisata.getHargaPaketWisata());
+    }   
+
 }

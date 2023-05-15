@@ -3,6 +3,7 @@ package com.example.sinta.domain;
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.Hibernate;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -42,20 +43,24 @@ public class PemesananLuarNegeri {
 
     private Titel titel;
 
-    private String namaDepanTengah;
+    private String namaLengkap;
 
-    private String namaBelakang;
+    private String email;
 
-    private Date tanggalLahir;
+    private String nomorKtp;
+
+    private String nomorTelepon;
+
+    private Integer banyakDewasa;
+
+    private Integer banyakAnak;
+
+    private Integer banyakBayi;
 
     /***
      * This property for a while will always have value "Indonesia"
      */
     private final String kewarganegaraan = "Indonesia";
-
-    private String nomorPaspor;
-
-    private Date tanggalHabisBerlakuPaspor;
 
     @Enumerated(EnumType.STRING)
     private TipePembayaran tipePembayaran;
@@ -70,19 +75,27 @@ public class PemesananLuarNegeri {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "pemesananLuarNegeri")
     @JsonIgnore
-    private List<DetailTamuDewasa> detailTamuDewasa;
+    private List<DetailTamuDewasaLuarNegeri> detailTamuDewasa;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "pemesananLuarNegeri")
     @JsonIgnore
-    private List<DetailTamuAnak> detailTamuAnak;
+    private List<DetailTamuAnakLuarNegeri> detailTamuAnak;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "pemesananLuarNegeri")
     @JsonIgnore
-    private List<DetailTamuBayi> detailTamuBayi;
+    private List<DetailTamuBayiLuarNegeri> detailTamuBayi;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
     @OneToOne(fetch = FetchType.LAZY)
     private PaketWisata paketWisata;
+
+    private Long agenTravelId;
+
+    public void initialize(){
+        Hibernate.initialize(this.paketWisata.getAgenTravel());
+        Hibernate.initialize(this.paketWisata.getDetailTanggal());
+        Hibernate.initialize(this.paketWisata.getHargaPaketWisata());
+    }   
 }

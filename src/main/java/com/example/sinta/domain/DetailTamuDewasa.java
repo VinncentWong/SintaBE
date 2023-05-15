@@ -37,7 +37,4 @@ public class DetailTamuDewasa {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private PemesananDalamNegeri pemesananDalamNegeri;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    private PemesananLuarNegeri pemesananLuarNegeri;
 }

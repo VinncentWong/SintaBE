@@ -6,9 +6,12 @@ import java.util.List;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -32,7 +35,8 @@ import lombok.ToString;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString(exclude = {"historyPembelian", "paketWisata"})
+@ToString(exclude = {"historyPembelian", "paketWisata", "bank", "portofolio"})
+@JsonIgnoreProperties({"hibernateLazyInitializer"})
 public class AgenTravel implements Extractable{
     
     @Id
@@ -74,9 +78,13 @@ public class AgenTravel implements Extractable{
 
     private String akunLineBadanUsaha;
 
-    private boolean isVerified;
+    private Boolean isVerified;
 
-    private boolean isPremium;
+    private Boolean isPremium;
+
+    private Boolean sudahLengkapiProfil;
+
+    private Boolean sudahIsiDetailBank;
 
     private Date tanggalBerlangganan;
 
@@ -96,10 +104,19 @@ public class AgenTravel implements Extractable{
     private Date deletedAt;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "agenTravel")
+    @Fetch(FetchMode.SUBSELECT)
     @JsonIgnore
     private List<HistoryPembelianPremium> historyPembelian;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "agenTravel")
     @JsonIgnore
     private List<PaketWisata> paketWisata;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "agenTravel")
+    @JsonIgnore
+    private List<Bank> bank;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "agenTravel")
+    @JsonIgnore
+    private List<Portofolio> portofolio;
 }
