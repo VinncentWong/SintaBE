@@ -30,17 +30,17 @@ public class JwtAuthentication extends UsernamePasswordAuthenticationToken{
     }
 
     public void setData(Claims claims) {
-        if(claims.get("role").equals(Role.AGEN_TRAVEL)){
+        if(claims.get("role").equals(Role.AGEN_TRAVEL.name())){
             AgenTravel agenTravel = new AgenTravel();
-            agenTravel.setId((Long)claims.get("id"));
+            agenTravel.setId(((Integer)claims.get("id")).longValue());
             agenTravel.setNama((String)claims.get("nama"));
-            agenTravel.setCreatedAt((Date)claims.get("createdAt"));
+            agenTravel.setCreatedAt(new Date(((Long)claims.get("createdAt")).longValue()));
             this.data = agenTravel;
         } else {
             User user = new User();
-            user.setId((Long)claims.get("id"));
+            user.setId(((Integer)claims.get("id")).longValue());
             user.setNama((String)claims.get("nama"));
-            user.setCreatedAt((Date)claims.get("createdAt"));
+            user.setCreatedAt(new Date(((Long)claims.get("createdAt")).longValue()));
             this.data = user;
         }
     }    
