@@ -23,16 +23,16 @@ public class SecurityConfiguration {
                 .csrf().disable() // DON'T DO THIS IN PRODUCTION, YOU SHOULD AWARE WITH CSRF ATTACK
                 .httpBasic().disable()
                 .formLogin().disable()
-                .cors(c -> {
-                    CorsConfigurationSource src = (r) -> {
-                        CorsConfiguration config = new CorsConfiguration();
-                        config.addAllowedHeader("*");
-                        config.addAllowedMethod("*");
-                        config.addAllowedOrigin("*");
-                        return config;
-                    };
-                    c.configurationSource(src);
-                })
+                // .cors(c -> {
+                //     CorsConfigurationSource src = (r) -> {
+                //         CorsConfiguration config = new CorsConfiguration();
+                //         config.addAllowedHeader("*");
+                //         config.addAllowedMethod("*");
+                //         config.addAllowedOrigin("*");
+                //         return config;
+                //     };
+                //     c.configurationSource(src);
+                // })
                 .addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests()
                 .requestMatchers("/user/create", "/user/login", "/user/update/verifikasi/**", "/user/get/**")
