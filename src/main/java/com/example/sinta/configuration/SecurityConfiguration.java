@@ -1,5 +1,7 @@
 package com.example.sinta.configuration;
 
+import java.util.List;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -23,16 +25,16 @@ public class SecurityConfiguration {
                 .csrf().disable() // DON'T DO THIS IN PRODUCTION, YOU SHOULD AWARE WITH CSRF ATTACK
                 .httpBasic().disable()
                 .formLogin().disable()
-                // .cors(c -> {
-                //     CorsConfigurationSource src = (r) -> {
-                //         CorsConfiguration config = new CorsConfiguration();
-                //         config.addAllowedHeader("*");
-                //         config.addAllowedMethod("*");
-                //         config.addAllowedOrigin("*");
-                //         return config;
-                //     };
-                //     c.configurationSource(src);
-                // })
+                .cors(c -> {
+                    CorsConfigurationSource src = (r) -> {
+                        CorsConfiguration config = new CorsConfiguration();
+                        config.setAllowedHeaders(List.of("*"));
+                        config.setAllowedMethods(List.of("*"));
+                        config.setAllowedOrigins(List.of("http://localhost:3000","https://sinta-j784mua8l-vinncentwong.vercel.app"));
+                        return config;
+                    };
+                    c.configurationSource(src);
+                })
                 .addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests()
                 .requestMatchers("/user/create", "/user/login", "/user/update/verifikasi/**", "/user/get/**")
