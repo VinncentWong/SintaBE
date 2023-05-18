@@ -25,8 +25,8 @@ public class PaketWisataDto {
         @Length(min = 4, message = "Minimal panjang nama adalah 4")
         String nama,
 
-        @NotNull(message = "Nama harus ada")
-        @NotBlank(message = "Nama tidak boleh kosong")
+        @NotNull(message = "Domain harus ada")
+        @NotBlank(message = "Domain tidak boleh kosong")
         String domain,
 
         @NotNull(message = "Durasi hari harus ada")

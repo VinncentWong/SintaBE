@@ -19,7 +19,7 @@ services:
     networks:
       - "sinta_network"
     restart: on-failure
-    build: .
+    build: ./Dockerfile.local
 volumes:
   sinta_volume:
 networks:

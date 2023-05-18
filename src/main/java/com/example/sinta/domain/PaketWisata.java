@@ -49,6 +49,8 @@ public class PaketWisata {
 
     private String lokasiPenjemputan;
 
+    private String gambarCover;
+
     @Enumerated(EnumType.STRING)
     private JenisKelengkapan jenisKelengkapan;
 

@@ -1,5 +1,10 @@
 package com.example.sinta.domain;
 
+import java.util.Date;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -26,4 +31,10 @@ public class Portofolio {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private AgenTravel agenTravel;
+
+    @CreationTimestamp
+    private Date createdAt;
+
+    @UpdateTimestamp
+    private Date updatedAt;
 }

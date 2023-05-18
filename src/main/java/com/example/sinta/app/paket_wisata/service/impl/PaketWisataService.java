@@ -1,20 +1,29 @@
 package com.example.sinta.app.paket_wisata.service.impl;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.hibernate.Hibernate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.example.sinta.app.agen_travel.repository.AgenTravelRepository;
 import com.example.sinta.app.paket_wisata.repository.PaketWisataRepository;
 import com.example.sinta.app.paket_wisata.service.IPaketWisataService;
 import com.example.sinta.domain.AgenTravel;
 import com.example.sinta.domain.DetailTanggal;
+import com.example.sinta.domain.DomainPaketWisata;
 import com.example.sinta.domain.HargaPaketWisata;
+import com.example.sinta.domain.JenisKelengkapan;
 import com.example.sinta.domain.PaketWisata;
 import com.example.sinta.dto.PaketWisataDto.CreateOrUpdate;
 import com.example.sinta.exception.AgenTravelNotExistException;
@@ -31,17 +40,21 @@ public class PaketWisataService implements IPaketWisataService{
 
     private final AgenTravelRepository agenTravelRepository;
 
+    private final Cloudinary cloudinary;
+
     private final ResponseUtil responseUtil = ResponseUtil.INSTANCE;
 
     private final PaketWisataMapper mapper = PaketWisataMapper.INSTANCE;
 
-    public PaketWisataService(PaketWisataRepository repository, AgenTravelRepository agenTravelRepository) {
+    @Autowired
+    public PaketWisataService(PaketWisataRepository repository, AgenTravelRepository agenTravelRepository, Cloudinary cloudinary) {
         this.repository = repository;
         this.agenTravelRepository = agenTravelRepository;
+        this.cloudinary = cloudinary;
     }
 
     @Override
-    public ResponseEntity<Map<String, Object>> createPaketWisata(Long id, CreateOrUpdate dto) throws AgenTravelNotExistException {
+    public ResponseEntity<Map<String, Object>> createPaketWisata(Long id, CreateOrUpdate dto, MultipartFile file) throws AgenTravelNotExistException, IOException {
         AgenTravel agenTravel = this.agenTravelRepository.findById(id).orElseThrow(() -> new AgenTravelNotExistException("Data agen travel tidak ditemukan"));
         PaketWisata paketWisata = this.mapper.getPaketWisata(dto);
         paketWisata.setAgenTravel(agenTravel);
@@ -51,6 +64,12 @@ public class PaketWisataService implements IPaketWisataService{
         dto.detailTanggal().forEach((d) -> {
             d.setPaketWisata(paketWisata);
         });
+        File coverPaketWisata = new File(file.getOriginalFilename());
+        FileOutputStream outputStream = new FileOutputStream(coverPaketWisata);
+        outputStream.write(file.getBytes());
+        var result = this.cloudinary.uploader().upload(coverPaketWisata, ObjectUtils.asMap("folder", "sinta"));
+        outputStream.close();
+        paketWisata.setGambarCover((String)result.get("secure_url"));
         paketWisata.setHargaPaketWisata(dto.hargaPaketWisata());
         this.repository.save(paketWisata);
         Map<String, Object> map = new LinkedHashMap<>();
@@ -131,4 +150,24 @@ public class PaketWisataService implements IPaketWisataService{
         return this.responseUtil.sendResponse("Sukses mengupdate data paket wisata", HttpStatus.OK, true, null);
     }
     
+    @Override
+    public ResponseEntity<Map<String, Object>> getPaketWisataByDomain(DomainPaketWisata domain) {
+        var data = this.repository.getPaketWisataByDomain(domain);
+        data.forEach((v) -> {
+            Hibernate.initialize(v.getHargaPaketWisata());
+        });
+        Map<String, Object> map = new LinkedHashMap<>();
+        map.put("paket_wisata", data);
+        return this.responseUtil.sendResponse("Sukses mendapatkan data paket wisata", HttpStatus.OK, true, map);
+    }
+
+    public ResponseEntity<Map<String, Object>> getPaketWisataByJenisKelengkapan(JenisKelengkapan jenisKelengkapan){
+        var data = this.repository.getPaketWisataByJenisKelengkapan(jenisKelengkapan);
+        data.forEach((v) -> {
+            Hibernate.initialize(v.getHargaPaketWisata());
+        });
+        Map<String, Object> map = new LinkedHashMap<>();
+        map.put("paket_wisata", data);
+        return this.responseUtil.sendResponse("Sukses mendapatkan data paket wisata", HttpStatus.OK, true, map);
+    }
 }

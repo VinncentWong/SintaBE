@@ -139,6 +139,7 @@ public class AgenTravelService implements IAgenTravelService{
        var result = this.cloudinary.uploader().upload(suratIzinUsaha, ObjectUtils.asMap("folder", "sinta"));
        agenTravel.setSuratIzinUsaha((String)result.get("public_id"));
        agenTravel.setSudahLengkapiProfil(true);
+       agenTravel.setNomorTeleponPribadi(dto.noTeleponPribadi());
        AgenTravelMapper.INSTANCE.updateAgenTravelFromLengkapiProfil(dto, agenTravel);
        this.repository.save(agenTravel);
        outputStream.close();

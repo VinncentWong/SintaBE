@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.example.sinta.domain.DomainPaketWisata;
+import com.example.sinta.domain.JenisKelengkapan;
 import com.example.sinta.domain.PaketWisata;
 
 @Repository
@@ -39,4 +41,24 @@ public interface PaketWisataRepository extends JpaRepository<PaketWisata, Long>{
         """
     )
     List<PaketWisata> getPaketWisatas();
+
+    @Query(
+        """
+            SELECT p from PaketWisata p
+            LEFT JOIN FETCH p.agenTravel
+            LEFT JOIN FETCH p.detailTanggal
+            WHERE p.domain=:domain        
+        """
+    )
+    List<PaketWisata> getPaketWisataByDomain(@Param("domain") DomainPaketWisata domain);
+
+    @Query(
+        """
+            SELECT p from PaketWisata p
+            LEFT JOIN FETCH p.agenTravel
+            LEFT JOIN FETCH p.detailTanggal
+            WHERE p.jenisKelengkapan=:jenisKelengkapan        
+        """
+    )
+    List<PaketWisata> getPaketWisataByJenisKelengkapan(@Param("jenisKelengkapan") JenisKelengkapan jenisKelengkapan);
 }
