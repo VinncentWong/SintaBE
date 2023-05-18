@@ -30,7 +30,7 @@ public class SecurityConfiguration {
                         CorsConfiguration config = new CorsConfiguration();
                         config.setAllowedHeaders(List.of("*"));
                         config.setAllowedMethods(List.of("*"));
-                        config.setAllowedOrigins(List.of("http://localhost:3000","https://sinta-j784mua8l-vinncentwong.vercel.app"));
+                        config.setAllowedOrigins(List.of("*"));
                         return config;
                     };
                     c.configurationSource(src);
