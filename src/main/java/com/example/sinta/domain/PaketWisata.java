@@ -11,6 +11,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -54,12 +55,16 @@ public class PaketWisata {
     @Enumerated(EnumType.STRING)
     private JenisKelengkapan jenisKelengkapan;
 
+    @Column(length = 10_000_000)
     private String deskripsi;
 
+    @Column(length = 10_000_000)
     private String infoPenting;
 
+    @Column(length = 10_000_000)
     private String rundown;
 
+    @Column(length = 10_000_000)
     private String fasilitas;
 
     private String infoHarga;
