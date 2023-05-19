@@ -13,9 +13,9 @@ Install SINTA with Docker
 3. Fill all credentials on application-docker.properties
 4. Run ```docker-compose up -d```
     
-## Installation with Local
+## Installation in localhost environment
 1. Make sure you have install Apache Maven
-2. Make application.properties /resource directory
+2. Make application.properties on /resource directory
 3. Copy all application.properties.example key-value into your application.properties file
 4. Fill all credentials on application.properties
 5. Run ```mvn clean package -DskipTests=true``
