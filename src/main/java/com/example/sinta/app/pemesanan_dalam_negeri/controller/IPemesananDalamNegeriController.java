@@ -10,4 +10,5 @@ import com.example.sinta.security.authentication.JwtAuthentication;
 public interface IPemesananDalamNegeriController {
     ResponseEntity<Map<String, Object>> createPemesanan(JwtAuthentication jwtAuth, Long agenTravelId, Long paketWisataId, PemesananDalamNegeriDto.Create dto);
     ResponseEntity<Map<String, Object>> getPemesanan(JwtAuthentication jwtAuth);
+    ResponseEntity<Map<String, Object>> getPemesananByUserId(JwtAuthentication jwtAuth);
 }

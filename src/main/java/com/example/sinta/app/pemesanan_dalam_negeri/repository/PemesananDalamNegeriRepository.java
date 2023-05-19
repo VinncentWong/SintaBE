@@ -21,4 +21,14 @@ public interface PemesananDalamNegeriRepository extends JpaRepository<PemesananD
                 """
     )
     List<PemesananDalamNegeri> getPemesananDalamNegeri(@Param("id") Long id);
+
+    @Query(
+        value = """
+                    SELECT p FROM PemesananDalamNegeri p 
+                    LEFT JOIN FETCH p.user
+                    LEFT JOIN FETCH p.paketWisata
+                    WHERE p.user.id=:id
+                """
+    )
+    List<PemesananDalamNegeri> getPemesananByUserId(@Param("id") Long id);
 }

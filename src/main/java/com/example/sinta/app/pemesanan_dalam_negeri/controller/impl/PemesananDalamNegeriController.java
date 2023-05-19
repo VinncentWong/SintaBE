@@ -18,9 +18,11 @@ import com.example.sinta.dto.PemesananDalamNegeriDto.Create;
 import com.example.sinta.security.authentication.JwtAuthentication;
 
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/pemesanan/dalamnegeri")
+@Slf4j
 public class PemesananDalamNegeriController implements IPemesananDalamNegeriController{
 
     private final IPemesananDalamNegeriService service;
@@ -49,6 +51,17 @@ public class PemesananDalamNegeriController implements IPemesananDalamNegeriCont
     public ResponseEntity<Map<String, Object>> getPemesanan(JwtAuthentication jwtAuth) {
         Long id = jwtAuth.getData().getId();
         return this.service.getPemesanan(id);
+    }
+
+    @GetMapping(
+        value = "/get/by/user",
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    @Override
+    public ResponseEntity<Map<String, Object>> getPemesananByUserId(JwtAuthentication jwtAuth) {
+        Long id = jwtAuth.getData().getId();
+        log.info("id = " + id);
+        return this.service.getPemesananByUserId(id);
     }
     
 }

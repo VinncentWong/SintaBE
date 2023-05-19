@@ -87,5 +87,16 @@ public class PemesananDalamNegeriService implements IPemesananDalamNegeriService
         map.put("pemesanan_dalam_negeri", pemesananDalamNegeri);
         return this.responseUtil.sendResponse("Sukses mendapatkan pemesanan dalam negeri", HttpStatus.OK, true, map);
     }
+
+    @Override
+    public ResponseEntity<Map<String, Object>> getPemesananByUserId(Long id) {
+        var pemesananDalamNegeri = this.repository.getPemesananByUserId(id);
+        pemesananDalamNegeri.forEach((d) -> {
+            d.initialize();
+        });
+        Map<String, Object> map = new LinkedHashMap<>();
+        map.put("pemesanan_dalam_negeri", pemesananDalamNegeri);
+        return this.responseUtil.sendResponse("Sukses mendapatkan pemesanan dalam negeri", HttpStatus.OK, true, map);
+    }
     
 }
